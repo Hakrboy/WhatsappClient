@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>Whatsapp Server Statistics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        margin: 0 auto;
+        text-align: center;
+      }
+      h1 {
+        background-color: #4caf50;
+        color: white;
+        padding: 20px;
+      }
+      p {
+        margin: 20px;
+      }
+      button {
+        margin: 10px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#init-button").click(function() {
+          $.get("/api/instance/init", function(data) {
+            if (data.error===false) {
+              var modal = document.getElementById("myModal");
+              modal.style.display = "block";
+              $("#modal-content").load(data.qrcode.url);
+            }
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Whatsapp Server Statistics</h1>
+      <p>Server Uptime: <%= uptime %></p>
+      <p>Memory Usage: <%= memoryUsage %> GB</p>
+      <p>CPU Available: <%= cpucount %></p>
+
+      <p>HostName: <%= hostname %></p>
+      <p>OS Info: <%= productName %></p>
+      <p>Build Number : <%= version %></p>
+      <p>Load avg: <%= loadavg %></p>
+
+      <button id="init-button">Generate QR Code</button>
+      <button onclick="refresh()">Refresh</button>
+      <button onclick="logout()">Logout</button>
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div id="modal-content"></div>
+        </div>
+      </div>
+      <div id="response"></div>
+    </div>
+
+    <script>
+      function generateQRCode() {
+        // call the API to generate the QR code and display the response in the 'response' div
+        fetch('/init')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('response').innerHTML = data;
+          });
+    //     fetch('/generateQRCode')
+    // .then(res => res.text())
+    // .then(url => {
+    //     // Create an image element
+    //     let img = document.createElement('img');
+    //     img.src = url;
+    //     // Append the image to the page
+    //     document.body.appendChild(img);
+    // });
+      }
+
+      function refresh() {
+        // call the API to refresh the page and display the response in the 'response' div
+        fetch('/refresh')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('response').innerHTML = data;
+          });
+      }
+
+      function logout() {
+        // call the API to log out and display the response in the 'response' div
+        fetch('/logout')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('response').innerHTML = data;
+          });
+      }
+    </script>
+  </body>
+</html>
