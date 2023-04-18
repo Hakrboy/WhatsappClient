@@ -1,6 +1,6 @@
 const firebase = require('firebase/app');
 const { getFirestore,doc,collection, updateDoc,setDoc,addDoc,getDoc,getDocs,deleteDoc,query }=require ('firebase/firestore');
-const firebaseConfig = require('../firebseConfig')
+const firebaseConfig = require('../firebaseConfig')
 class Firestore {
   
   constructor() {

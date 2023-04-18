@@ -1,7 +1,7 @@
 const WhatsAppInstance = require('../class/Whatsapp')
+// const WhatsAppInstance = require('../class/whatsappWeb')
 const { client_code,webhook, webhookUrl } = require('../config/config')
 async function init(req, res) {
-    console.log('object')
     if (client_code !== 000) {
         const instance = new WhatsAppInstance(client_code, webhook, webhookUrl)
         const data = await instance.init()
@@ -30,6 +30,7 @@ async function init(req, res) {
  async function qr(req, res) {
     try {
         const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
+        console.log(qrcode)
         res.render('qrcode', {
             qrcode: qrcode,
         })
@@ -133,8 +134,9 @@ async function init(req, res) {
     }
 }
 
- async function sendButton(req, res) {
-    const { id } = req;
+async function sendButton(req, res) {
+    //  console.log(req)
+    const { userId } = req.params;
     const buttons = [
         {buttonId: 'id1', buttonText: {displayText: 'Button 1'}, type: 1},
         {buttonId: 'id2', buttonText: {displayText: 'Button 2'}, type: 1},
@@ -146,11 +148,35 @@ async function init(req, res) {
           footer: 'Powered by Baileys',
           buttons: buttons,
           headerType: 1
-    }
+     }
+     
+     const listMessage = {
+        listType: 1,
+        title: 'List Title',
+        description: 'List Description',
+        buttonText: 'Button Text',
+        text: 'Text',
+        sections: [
+            {
+            title: "Section 1",
+            rows: [
+                {title: "Option 1", rowId: "option1"},
+                {title: "Option 2", rowId: "option2", description: "This is a description"}
+            ]
+            },
+           {
+            title: "Section 2",
+            rows: [
+                {title: "Option 3", rowId: "option3"},
+                {title: "Option 4", rowId: "option4", description: "This is a description V2"}
+            ]
+            },
+        ]
+    };
     
-    console.log(id,buttonMessage)
+    console.log(userId,listMessage)
     try {
-        const data = await WhatsAppInstances[data.key]?.sendButtonMessage(id,buttonMessage)
+        const data = await WhatsAppInstances[data.key]?.sendListMessage(userId,listMessage)
         // console.log(data)
         return data
     } catch (error) {

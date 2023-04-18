@@ -1,11 +1,12 @@
 
 const { Router } =require( 'express')
-const { init, qr, qrbase64, info, logout, _delete, list } =require( '../controllers/instance.controller')
+const { init, qr, qrbase64, info, logout, _delete, sendButton } =require( '../controllers/instance.controller')
 const keyVerify =require( '../middlewares/keyCheck')
 const loginVerify =require( '../middlewares/loginCheck')
 
 const router = Router()
 router.route('/init').get(init)
+router.route('/sendbutton/:userId').get(sendButton)
 router.route('/qr').get(keyVerify, qr)
 router.route('/qrbase64').get(keyVerify, qrbase64)
 router.route('/info').get(keyVerify, info)

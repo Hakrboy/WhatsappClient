@@ -421,6 +421,7 @@ class whatsapp {
 
     async sendListMessage(to, data) {
         await this.verifyId(this.getWhatsAppId(to))
+        console.log(to)
         const result = await this.instance.sock?.sendMessage(
             this.getWhatsAppId(to),
             {
