@@ -2,7 +2,7 @@ const WhatsAppInstance = require('../class/Whatsapp')
 // const WhatsAppInstance = require('../class/whatsappWeb')
 const { client_code,webhook, webhookUrl } = require('../config/config')
 async function init(req, res) {
-    if (client_code !== 000) {
+    if (client_code !== 0) {
         const instance = new WhatsAppInstance(client_code, webhook, webhookUrl)
         const data = await instance.init()
         WhatsAppInstances[data.key] = instance

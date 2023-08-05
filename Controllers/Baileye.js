@@ -3,7 +3,7 @@ const {
     DisconnectReason,
     useMultiFileAuthState,
     fetchLatestBaileysVersion, Browsers
-} = require("@adiwajshing/baileys");
+} = require("@whiskeysockets/baileys");
 const fs = require("fs");
 const pino = require("pino");
 const QRCode = require('qrcode');
